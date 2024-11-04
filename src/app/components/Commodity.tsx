@@ -57,7 +57,50 @@ const CommodityTables = () => {
                     </div>
 
                     {/* Table 3: Commodity Bid, Ask, High, and Low */}
-                    <div className="overflow-x-auto mt-6">
+                    {/* Card-Style Table for Mobile */}
+                    <div className="flex flex-col mt-6 space-y-4 md:hidden">
+                        {[
+                            {
+                                commodity: 'Gold',
+                                bid: '₹5020',
+                                ask: '₹4980',
+                                high: '₹5050',
+                                low: '₹4950'
+                            },
+                            {
+                                commodity: 'Silver',
+                                bid: '₹755',
+                                ask: '₹745',
+                                high: '₹760',
+                                low: '₹740'
+                            }
+                        ].map((item, index) => (
+                            <div key={index} className="bg-white rounded-lg shadow-lg p-4 border border-gray-300">
+                                <h3 className="bg-gray-700 text-white rounded-t-lg py-2 px-4 font-bold text-lg">{item.commodity}</h3>
+                                <div className="grid grid-cols-2 gap-4 mt-2">
+                                    <div className="flex justify-between">
+                                        <span className="font-semibold text-gray-600 p-2">Bid:</span>
+                                        <span className="text-gray-800 p-2">{item.bid}</span>
+                                    </div>
+                                    <div className="flex justify-between">
+                                        <span className="font-semibold text-gray-600 p-2">Ask:</span>
+                                        <span className="text-gray-800 p-2">{item.ask}</span>
+                                    </div>
+                                    <div className="flex justify-between">
+                                        <span className="font-semibold text-gray-600 p-2">High:</span>
+                                        <span className="text-gray-800 p-2">{item.high}</span>
+                                    </div>
+                                    <div className="flex justify-between">
+                                        <span className="font-semibold text-gray-600 p-2">Low:</span>
+                                        <span className="text-gray-800 p-2">{item.low}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+
+                    {/* Desktop View - Traditional Table Layout */}
+                    <div className="hidden md:block overflow-x-auto mt-6">
                         <table className="min-w-full bg-white rounded-lg shadow-lg">
                             <thead>
                                 <tr className="bg-gray-700 text-white">
@@ -86,6 +129,7 @@ const CommodityTables = () => {
                             </tbody>
                         </table>
                     </div>
+
                 </div>
             </div>
         </div>

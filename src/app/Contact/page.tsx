@@ -4,6 +4,7 @@ import Bank from '../components/contact/Bank';
 import Booking from '../components/contact/Booking';
 import ContactForm from '../components/contact/ContactForm';
 import SocialMediaLinks from '../components/contact/SocialMedia';
+import Header from '../components/Header';
 
 const Contact = () => {
     const [activeTab, setActiveTab] = useState('booking');
@@ -12,27 +13,28 @@ const Contact = () => {
         switch (activeTab) {
             case 'booking':
                 return (
-                    <div className="flex items-stretch w-full">
+                    <div className="flex flex-col md:flex-row items-stretch w-full">
                         {/* Image Container for Booking Tab */}
-                        <div className="flex flex-grow items-center justify-evenly gap-4">
+                        <div className="flex flex-col md:flex-row flex-grow items-center justify-evenly gap-4">
                             {/* First Image */}
-                            <img 
-                                src="/goldbar1.jpeg" 
-                                alt="Gold Bar" 
-                                className="max-w-[120%] h-[350px] rounded-lg shadow-lg transition-transform transform hover:scale-105 animate-fade-in"
+                            <img
+                                src="/goldbar1.jpeg"
+                                alt="Gold Bar"
+                                className="max-w-full h-[350px] rounded-lg shadow-lg transition-transform transform hover:scale-105 animate-fade-in"
                             />
                             {/* Booking Component */}
-                            <div className=" mx-4 flex items-center">
+                            <div className="mx-4 flex items-center">
                                 <Booking />
                             </div>
                             {/* Second Image */}
-                            <img 
-                                src="/goldbar2.jpeg" 
-                                alt="Gold Bar 2" 
-                                className="max-w-[120%] h-[350px] rounded-lg shadow-lg transition-transform transform hover:scale-105 animate-fade-in"
+                            <img
+                                src="/goldbar2.jpeg"
+                                alt="Gold Bar 2"
+                                className="max-w-full h-[350px] rounded-lg shadow-lg transition-transform transform hover:scale-105 animate-fade-in"
                             />
                         </div>
                     </div>
+
                 );
             case 'bank':
                 return <Bank />;
@@ -59,27 +61,30 @@ const Contact = () => {
     };
 
     return (
+        <div>
+            <Header />
         <div className="mx-auto p-6 w-full max-w-full">
-            <nav className="flex justify-around mb-6">
-                <button 
-                    className={`p-2 rounded ${activeTab === 'booking' ? 'font-bold' : ''}`} 
+            <nav className="flex justify-start mb-6 space-x-4">
+                <button
+                    className={`p-2 border border-gray-300 rounded-md text-gray-700 hover:bg-blue-100 transition-colors ${activeTab === 'booking' ? 'font-bold border-blue-600 bg-blue-100' : ''}`}
                     onClick={() => setActiveTab('booking')}
                 >
                     Booking
                 </button>
-                <button 
-                    className={`p-2 rounded ${activeTab === 'contactForm' ? 'font-bold' : ''}`} 
+                <button
+                    className={`p-2 border border-gray-300 rounded-md text-gray-700 hover:bg-blue-100 transition-colors ${activeTab === 'contactForm' ? 'font-bold border-blue-600 bg-blue-100' : ''}`}
                     onClick={() => setActiveTab('contactForm')}
                 >
                     Contact Form
                 </button>
-                <button 
-                    className={`p-2 rounded ${activeTab === 'bank' ? 'font-bold' : ''}`} 
+                <button
+                    className={`p-2 border border-gray-300 rounded-md text-gray-700 hover:bg-blue-100 transition-colors ${activeTab === 'bank' ? 'font-bold border-blue-600 bg-blue-100' : ''}`}
                     onClick={() => setActiveTab('bank')}
                 >
                     Banking Details
                 </button>
             </nav>
+
 
             {/* Render the selected component */}
             <div className="bg-white shadow-md rounded-lg p-4 mb-6 w-full">
@@ -125,6 +130,7 @@ const Contact = () => {
                     animation: fade-in 0.5s ease forwards;
                 }
             `}</style>
+            </div>
         </div>
     );
 }

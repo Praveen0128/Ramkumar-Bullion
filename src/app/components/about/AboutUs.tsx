@@ -5,18 +5,24 @@ const AboutUs = () => {
                 <h2 className="text-3xl font-semibold mb-8">About Us</h2>
 
                 {/* Image Section with Animation */}
-                <div className="flex justify-center mb-8 space-x-6">
-                    <img 
-                        src="/goldbar1.jpeg" 
-                        alt="Gold Bar 1" 
-                        className="max-w-xs h-auto rounded-lg shadow-lg transition-transform transform hover:scale-105 animate-fade-in"
+                <div className="flex flex-col md:flex-row justify-center mb-8 space-x-0 md:space-x-6">
+                    <img
+                        src="/goldbar1.jpeg"
+                        alt="Gold Bar 1"
+                        className="max-w-full md:max-w-xs h-auto rounded-lg shadow-lg transition-transform transform hover:scale-105 animate-fade-in mb-4 md:mb-0"
                     />
-                    <img 
-                        src="/goldbar2.jpeg" 
-                        alt="Gold Bar 2" 
-                        className="max-w-xs h-auto rounded-lg shadow-lg transition-transform transform hover:scale-105 animate-fade-in"
+                    <img
+                        src="/goldcoin1.jpeg"
+                        alt="Gold Coin 1"
+                        className="max-w-full md:max-w-xs h-auto rounded-lg shadow-lg transition-transform transform hover:scale-105 animate-fade-in mb-4 md:mb-0"
+                    />
+                    <img
+                        src="/goldbar2.jpeg"
+                        alt="Gold Bar 2"
+                        className="max-w-full md:max-w-xs h-auto rounded-lg shadow-lg transition-transform transform hover:scale-105 animate-fade-in mb-4 md:mb-0"
                     />
                 </div>
+
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="bg-white rounded-lg shadow-lg p-6 transition-transform transform hover:scale-105">

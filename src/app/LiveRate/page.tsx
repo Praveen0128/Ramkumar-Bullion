@@ -1,8 +1,11 @@
 import CommodityTables from '../components/Commodity';
+import Header from '../components/Header';
 import Booking from '../components/contact/Booking';
 
 const LiveRate = () => {
     return (
+        <div>
+            <Header />
         <div className="flex flex-col p-6 w-full">
             <div className="flex flex-col md:flex-row gap-6 w-full">
                 {/* Left Column with the Commodity Tables - 4/5 width */}
@@ -34,6 +37,7 @@ const LiveRate = () => {
                     </p>
                 </div>
             </section>
+            </div>
         </div>
     );
 };
