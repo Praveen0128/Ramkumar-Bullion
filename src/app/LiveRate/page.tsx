@@ -1,4 +1,5 @@
 import CommodityTables from '../components/Commodity';
+import Footer from '../components/Footer';
 import Header from '../components/Header';
 import Booking from '../components/contact/Booking';
 
@@ -6,7 +7,16 @@ const LiveRate = () => {
     return (
         <div>
             <Header />
-        <div className="flex flex-col p-6 w-full">
+            {/* Marquee-like scrolling text */}
+            <div className="overflow-hidden whitespace-nowrap bg-yellow-200 py-2">
+                <div className="inline-block animate-scroll hover:animate-none">
+                    <span className="text-lg text-gray-800 px-4">
+                        Hollow rope, Ketty rope, Square rope, Machine chains, Kerala chains, Handmade chains are available.
+                    </span>
+                </div>
+            </div>
+            <div className="flex flex-col p-6 w-full">
+
             <div className="flex flex-col md:flex-row gap-6 w-full">
                 {/* Left Column with the Commodity Tables - 4/5 width */}
                 <div className="flex-grow md:w-4/5">
@@ -38,6 +48,7 @@ const LiveRate = () => {
                 </div>
             </section>
             </div>
+            <Footer />
         </div>
     );
 };

@@ -4,6 +4,7 @@ import AboutUs from "../components/about/AboutUs";
 import PrivacyPolicy from "../components/about/Privacy";
 import TermsAndConditions from "../components/about/Terms";
 import Header from '../components/Header';
+import Footer from '../components/Footer';
 
 const About = () => {
     const [activeComponent, setActiveComponent] = useState('aboutUs');
@@ -24,6 +25,13 @@ const About = () => {
     return (
         <div>
             <Header />
+            <div className="overflow-hidden whitespace-nowrap bg-yellow-200 py-2">
+                <div className="inline-block animate-scroll hover:animate-none">
+                    <span className="text-lg text-gray-800 px-4">
+                        10 gram Gold bar, 20 gram Gold bar, 100 gram Gold bar, 24k Gold bars are available.
+                    </span>
+                </div>
+            </div>
         <div className="mx-auto p-6 w-full">
             <nav className="flex justify-start mb-6 space-x-4">
                 <button
@@ -50,6 +58,7 @@ const About = () => {
                 {renderComponent()}
             </div>
             </div>
+            <Footer />
         </div>
     );
 };

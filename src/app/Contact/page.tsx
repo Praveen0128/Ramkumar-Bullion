@@ -5,6 +5,7 @@ import Booking from '../components/contact/Booking';
 import ContactForm from '../components/contact/ContactForm';
 import SocialMediaLinks from '../components/contact/SocialMedia';
 import Header from '../components/Header';
+import Footer from '../components/Footer';
 
 const Contact = () => {
     const [activeTab, setActiveTab] = useState('booking');
@@ -63,6 +64,13 @@ const Contact = () => {
     return (
         <div>
             <Header />
+            <div className="overflow-hidden whitespace-nowrap bg-yellow-200 py-2">
+                <div className="inline-block animate-scroll hover:animate-none">
+                    <span className="text-lg text-gray-800 px-4">
+                        1 gram Gold coins, 8 gram Gold coins, 10 gram Gold coins, 24k Gold coins are available.
+                    </span>
+                </div>
+            </div>
         <div className="mx-auto p-6 w-full max-w-full">
             <nav className="flex justify-start mb-6 space-x-4">
                 <button
@@ -131,6 +139,7 @@ const Contact = () => {
                 }
             `}</style>
             </div>
+            <Footer />
         </div>
     );
 }

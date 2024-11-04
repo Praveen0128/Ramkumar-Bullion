@@ -1,3 +1,4 @@
+import Footer from '../components/Footer';
 import GoldBar from '../components/GoldBar';
 import GoldCoin from '../components/GoldCoin';
 import Header from '../components/Header';
@@ -17,7 +18,7 @@ const Home = () => {
             </div>
 
             {/* Main Content */}
-                <main className="flex-grow p-6">
+                <div className="flex-grow p-6">
                     <div className="relative mb-8"> {/* Add bottom margin to separate from next section */}
                         <div className="absolute inset-0 bg-black opacity-10 rounded-lg"></div>
                         <div className="bg-[url('/liqGold2.jpeg')] bg-cover bg-center p-8 rounded-lg shadow-lg">
@@ -51,8 +52,9 @@ const Home = () => {
                             <GoldBar />
                         </div>
                     </div>
-                </main>
-          </div>
+                </div>
+            </div>
+            <Footer />
         </div>
     );
 };

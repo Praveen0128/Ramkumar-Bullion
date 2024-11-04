@@ -1,7 +1,7 @@
 // app/layout.tsx
 import type { Metadata } from "next";
 import "./globals.css";
-import Footer from "./components/Footer";
+
 
 export const metadata: Metadata = {
   title: "Ramkumar Bullion | Live Gold Rates",
@@ -20,8 +20,7 @@ export default function RootLayout({
     <html lang="en">
       <head />
       <body>
-        <main>{children}</main>
-        <Footer />
+        <div>{children}</div>
       </body>
     </html>
   );
