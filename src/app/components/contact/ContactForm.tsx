@@ -11,6 +11,7 @@ const ContactForm = () => {
 
     const handleSubmit = (e: any) => {
         e.preventDefault();
+        alert("Your message has been sent succesfully!")
         // Here you can handle the form submission, e.g., sending data to an API
         console.log('Form Data Submitted:', formData);
         // Reset form after submission
@@ -56,7 +57,7 @@ const ContactForm = () => {
                 rows={4} // Changed from '4' (string) to 4 (number)
             />
             <button type="submit" className="bg-blue-600 text-white py-2 rounded hover:bg-blue-500 transition">
-                Send Message
+                Send Message             
             </button>
         </form>
     );

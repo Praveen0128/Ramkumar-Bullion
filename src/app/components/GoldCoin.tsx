@@ -11,7 +11,7 @@ const GoldCoin = () => {
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
         >
-            <div className="bg-gradient-to-r from-yellow-300 to-yellow-500 shadow-lg rounded-lg p-6">
+            <div className="bg-gradient-to-r from-yellow-500 to-yellow-300 shadow-lg rounded-lg p-6">
                 <h2 className="text-xl font-bold text-gray-800 mb-2">Gold Coins Available</h2>
                 <p className="text-gray-700 mb-4">
                     We have gold coins from 0.5 to 8 grams <b>916 Hallmark</b>. Offering customized coins in 10, 20, and 100 grams!

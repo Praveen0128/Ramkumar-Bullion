@@ -3,7 +3,7 @@
 import { NextResponse } from 'next/server';
 
 export async function GET() {
-    const apiKey = '214b6517e187b405f266423a0f22ee4a';
+    const apiKey = process.env.METALPRICE_API_KEY;
     const url = `https://api.metalpriceapi.com/v1/latest?api_key=${apiKey}&base=INR&currencies=XAU,XAG`;
 
     try {
