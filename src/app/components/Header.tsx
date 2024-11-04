@@ -26,7 +26,7 @@ const Header = () => {
             {/* Logo */}
             <div className="flex items-center justify-end space-x-4">
                 <img
-                    src="/amman.jpeg"
+                    src="/Amman.jpeg"
                     alt="amman Bank"
                     className="h-12 w-12 rounded-lg shadow-lg transition-transform transform hover:scale-105"
                 />
