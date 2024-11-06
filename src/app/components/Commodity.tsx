@@ -67,7 +67,7 @@ const CommodityTables = () => {
                             <td className={dataClass}>{formatINR(gold22KSell)}</td>
                         </tr>
                         <tr className="bg-gray-100 border border-gray-200 hover:bg-gray-200">
-                            <td className={cellClass}>Silver (1 Kilo)</td>
+                            <td className={cellClass}>Silver (1KG)</td>
                             <td className={dataClass}>{formatINR(silverBuy)}</td>
                             <td className={dataClass}>{formatINR(silverSell)}</td>
                         </tr>
@@ -86,11 +86,11 @@ const CommodityTables = () => {
                     </thead>
                     <tbody>
                         <tr className="bg-gray-100 border border-gray-200 hover:bg-gray-200">
-                            <td className={cellClass}>Gold (Madurai, 1g)</td>
+                            <td className={cellClass}>Gold 1g (24K)</td>
                             <td className={dataClass}>{formatINR((pureGoldBuy / 10).toFixed(2))}</td>
                         </tr>
                         <tr className="bg-gray-100 border border-gray-200 hover:bg-gray-200">
-                            <td className={cellClass}>Silver (Madurai, 1g)</td>
+                            <td className={cellClass}>Silver 1g</td>
                             <td className={dataClass}>{formatINR((silverBuy / 1000).toFixed(2))}</td>
                         </tr>
                     </tbody>

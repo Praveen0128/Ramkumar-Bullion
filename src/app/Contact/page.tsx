@@ -40,22 +40,7 @@ const Contact = () => {
             case 'bank':
                 return <Bank />;
             case 'contactForm':
-                return (
-                    <div>
-                        <ContactForm />
-                        {/* Google Maps Embed inside Contact Form tab */}
-                        <div className="flex justify-center my-8">
-                            <iframe 
-                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3105.792568687352!2d78.11785261502697!3d9.925085690491777!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3b066dd77c6875a3%3A0x5c67d24114b8f70d!2sRamkumar%20Jewellers!5e0!3m2!1sen!2sin!4v1633548562840!5m2!1sen!2sin" 
-                                width="100%" 
-                                height="450" 
-                                style={{ border: 0 }} 
-                                allowFullScreen 
-                                loading="lazy">
-                            </iframe>
-                        </div>
-                    </div>
-                );               
+                return <ContactForm />              
             default:
                 return <ContactForm />;
         }
@@ -98,22 +83,7 @@ const Contact = () => {
             <div className="bg-white shadow-md rounded-lg p-4 mb-6 w-full">
                 {activeTab === 'booking' && renderComponent()}
                 {activeTab === 'bank' && <Bank />}
-                {activeTab === 'contactForm' && (
-                    <div>
-                        <ContactForm />
-                        {/* Google Maps Embed inside Contact Form tab */}
-                        <div className="flex justify-center my-8">
-                            <iframe 
-                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3105.792568687352!2d78.11785261502697!3d9.925085690491777!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3b066dd77c6875a3%3A0x5c67d24114b8f70d!2sRamkumar%20Jewellers!5e0!3m2!1sen!2sin!4v1633548562840!5m2!1sen!2sin" 
-                                width="100%" 
-                                height="450" 
-                                style={{ border: 0 }} 
-                                allowFullScreen 
-                                loading="lazy">
-                            </iframe>
-                        </div>
-                    </div>
-                )}                
+                {activeTab === 'contactForm' && (<ContactForm />)}                
             </div>
 
             {/* Social Media Links */}

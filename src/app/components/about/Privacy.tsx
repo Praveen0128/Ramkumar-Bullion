@@ -38,10 +38,14 @@ const PrivacyPolicy = () => {
                 </li>
                 <li><strong>Contact Us:</strong>
                     <p>For any queries regarding this Privacy Policy, please contact us at:</p>
-                    <ul className="list-decimal pl-5">
+                    <ul className="pl-5">
                         <li><strong>Ramkumar Jewellers</strong></li>
+                        <li>159 YMCA corner, Netaji road,</li> 
+                        <li>Madurai - 625001, Tamil Nadu</li>
+                        <li>-----------------------------------------------------</li>
                         <li><strong>Telephone:</strong> 9790581978</li>
-                        <li><strong>Email:</strong> ramkumarjewellers.com</li>
+                        <li><strong>Email:</strong> ramkumarjewellery1@gmail.com</li>
+                        <li><strong>Website:</strong> www.ramkumarbullions.com</li>
                     </ul>
                 </li>
                 <li>This policy is governed by the exclusive jurisdiction of the appropriate courts in Madurai.</li>

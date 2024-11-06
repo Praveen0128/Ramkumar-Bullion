@@ -1,11 +1,12 @@
 "use client";
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { FaHome, FaPhoneAlt, FaInfoCircle, FaChartLine } from 'react-icons/fa';
 
 const Header = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [bgColor, setBgColor] = useState("bg-rose-800");
     const pathname = usePathname();
 
     const toggleMenu = () => {
@@ -21,8 +22,24 @@ const Header = () => {
         setIsMenuOpen(false);
     };
 
+    // Change background color on scroll
+    useEffect(() => {
+        const handleScroll = () => {
+            if (window.scrollY > 50) {
+                setBgColor("bg-rose-600");
+            } else {
+                setBgColor("bg-rose-800");
+            }
+        };
+
+        window.addEventListener("scroll", handleScroll);
+        return () => {
+            window.removeEventListener("scroll", handleScroll);
+        };
+    }, []);
+
     return (
-        <header className="bg-rose-800 text-white p-4 flex justify-between items-center">
+        <header className={`${bgColor} text-white p-4 px-20 sticky top-0 w-full flex justify-between items-center transition-colors duration-300 z-50`}>
             {/* Logo */}
             <div className="flex items-center justify-end space-x-4">
                 <img
