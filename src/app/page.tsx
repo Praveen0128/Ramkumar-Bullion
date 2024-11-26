@@ -1,12 +1,12 @@
 // src/app/page.tsx
+import Home from './Home/page';
 import Layout from './layout';
-import LiveRate from './LiveRate/page';
 
 export default function HomePage() {
   return (
     
     <Layout>     
-      <LiveRate />
+      <Home />
     </Layout>
   );
 }

@@ -94,7 +94,7 @@ const ContactForm = () => {
                 {/* Google Maps Embed inside Contact Form tab */}
                 <div className="flex-1 flex justify-center my-8">
                     <iframe
-                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3105.792568687352!2d78.11785261502697!3d9.925085690491777!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3b066dd77c6875a3%3A0x5c67d24114b8f70d!2sRamkumar%20Jewellers!5e0!3m2!1sen!2sin!4v1633548562840!5m2!1sen!2sin"
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3930.195695470086!2d78.11460387450764!3d9.917653574447336!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3b00c5554943eda5%3A0x91fef8b67f08fecb!2sRamkumar%20Jewellers!5e0!3m2!1sen!2sin!4v1732623063069!5m2!1sen!2sin"
                         width="100%"
                         height="450"
                         style={{ border: 0 }}

@@ -2,6 +2,7 @@ import Footer from '../components/Footer';
 import GoldBar from '../components/GoldBar';
 import GoldCoin from '../components/GoldCoin';
 import Header from '../components/Header';
+import GetInTouch from '../components/contact/GetInTouch';
 
 const Home = () => {
     return (
@@ -25,10 +26,10 @@ const Home = () => {
                             <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4">
                                 {/* Welcome Note Card */}
                                 <div className="bg-white bg-opacity-60 rounded-lg shadow-md p-6 flex-1"> {/* Increased padding */}
-                                    <h3 className="font-bold text-xl mb-2">Welcome to Ramkumar Bullion!</h3>
+                                    <h3 className="font-bold text-xl mb-2">Welcome to Ramkumar Jewellers!</h3>
                                     <p>
-                                        "Discover the finest gold and silver at your fingertips."
-                                        At Ramkumar Bullion, established in 1990 in Madurai, we pride ourselves on offering the best prices for precious metals compared to other dealers. With decades of experience in the bullion trade, we are committed to providing exceptional service and ensuring transparency in all our dealings. We believe in empowering our customers with reliable access to gold and silver, making your buying experience seamless and trustworthy.
+                                        <em>"Jewelry is not just an ornament it is a symbol of love tradition and timeless beauty" </em> 
+                                        At <strong>Ramkumar Jewellers</strong> we are dedicated to crafting moments of elegance that last a lifetime. As a leading retailer of gold ornaments we take immense pride in offering a diverse range of designs that blend tradition with contemporary trends. Every piece of jewelry in our collection is <strong>BIS-certified and hallmark HUID</strong> ensuring not just beauty but also the highest standards of quality and authenticity. Whether you are looking for a stunning gift or a custom-designed treasure our commitment to excellence guarantees that your vision becomes a reality.
                                     </p>
                                 </div>
 
@@ -36,8 +37,8 @@ const Home = () => {
                                 <div className="bg-white bg-opacity-60 rounded-lg shadow-md p-6 flex-1"> {/* Increased padding */}
                                     <h3 className="font-bold text-xl mb-2">Our Commitment to You</h3>
                                     <p>
-                                        "Your trusted partner in bullion trading."
-                                        We are dedicated to delivering not only competitive pricing but also unparalleled service to our customers. At Ramkumar Bullion, we understand the value of your investment and strive to provide an experience that exceeds your expectations. Our commitment is to ensure that every transaction is handled with care and integrity, giving you peace of mind as you invest in your future.
+                                        <em>"Gold is the mirror of ones traditions and every piece tells a story of love and legacy" </em>
+                                        Our customers are at the heart of everything we do. At <strong>Ramkumar Jewellers</strong> we strive to provide an unparalleled shopping experience combining exceptional customer service with unbeatable value. Discover our <strong>exclusive discounts and special offers</strong> thoughtfully crafted to make your purchases even more delightful. We invite you to visit us and explore a world of gold that reflects your unique style passion and traditions. With us you will find not just jewelry but a promise of trust transparency and timeless memories.
                                     </p>
                                 </div>
                             </div>
@@ -52,6 +53,13 @@ const Home = () => {
                             <GoldBar />
                         </div>
                     </div>
+
+
+                    <div>
+                    <GetInTouch />
+                    </div>
+
+
                 </div>
             </div>
             <Footer />

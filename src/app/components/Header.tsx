@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { FaHome, FaPhoneAlt, FaInfoCircle, FaChartLine } from 'react-icons/fa';
+import { FaHome, FaPhoneAlt, FaInfoCircle, FaChartLine, FaThLarge } from 'react-icons/fa';
 
 const Header = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -48,7 +48,7 @@ const Header = () => {
                     className="h-12 w-12 rounded-lg shadow-lg transition-transform transform hover:scale-105"
                 />
                 <h1 className="text-2xl font-bold text-right md:text-left md:flex-grow">
-                    <span className="block md:inline">Ramkumar Bullion</span>
+                    <span className="block md:inline">Ramkumar Jewellers</span>
                 </h1>
             </div>
 
@@ -59,6 +59,9 @@ const Header = () => {
                 </Link>
                 <Link href="/LiveRate" className={`flex items-center rounded-lg px-4 py-2 ${pathname === '/LiveRate' ? activeLinkClass : defaultLinkClass}`}>
                     <FaChartLine className="mr-2" /> Live Rate
+                </Link>
+                <Link href="/Catalog" className={`flex items-center rounded-lg px-4 py-2 ${pathname === '/Catalog' ? activeLinkClass : defaultLinkClass}`}>
+                    <FaThLarge className="mr-2" /> Catalog
                 </Link>
                 <Link href="/About" className={`flex items-center rounded-lg px-4 py-2 ${pathname === '/About' ? activeLinkClass : defaultLinkClass}`}>
                     <FaInfoCircle className="mr-2" /> About Us
@@ -83,6 +86,9 @@ const Header = () => {
                     </Link>
                     <Link href="/LiveRate" onClick={handleLinkClick} className={`flex items-center rounded-lg px-4 py-2 ${pathname === '/LiveRate' ? activeLinkClass : defaultLinkClass}`}>
                         <FaChartLine className="mr-2" /> Live Rate
+                    </Link>
+                    <Link href="/Catalog" onClick={handleLinkClick} className={`flex items-center rounded-lg px-4 py-2 ${pathname === '/Catalog' ? activeLinkClass : defaultLinkClass}`}>
+                        <FaThLarge className="mr-2" /> Catalog
                     </Link>
                     <Link href="/About" onClick={handleLinkClick} className={`flex items-center rounded-lg px-4 py-2 ${pathname === '/About' ? activeLinkClass : defaultLinkClass}`}>
                         <FaInfoCircle className="mr-2" /> About Us
