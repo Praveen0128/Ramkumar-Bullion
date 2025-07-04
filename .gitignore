@@ -375,3 +375,7 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+
+goldrate-admin.json
+metalprice-cache.json
