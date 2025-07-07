@@ -1,8 +1,9 @@
 import { NextResponse } from 'next/server';
 import { Pool } from 'pg';
+import axios from 'axios';
 
 const pool = new Pool({
-    connectionString: process.env.DATABASE_URL,
+    connectionString: 'postgres://neondb_owner:npg_sQ0WFJGNfwl5@ep-odd-credit-admoirvs-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require',
 });
 
 const CACHE_TIME = 12 * 60 * 60 * 1000; // 12 hours
@@ -16,9 +17,7 @@ function safeNum(val) {
 
 async function getAdminMargins() {
     try {
-        const { rows } = await pool.query(`
-            SELECT * FROM admin_margins ORDER BY updated_at DESC LIMIT 1
-        `);
+        const { rows } = await pool.query('SELECT * FROM admin_margins ORDER BY updated_at DESC LIMIT 1');
         const parsed = rows[0] || {};
         return {
             gold24KBuy: safeNum(parsed.gold24k_buy),
@@ -28,7 +27,8 @@ async function getAdminMargins() {
             silverBuy: safeNum(parsed.silver_buy),
             silverSell: safeNum(parsed.silver_sell),
         };
-    } catch {
+    } catch (error) {
+        console.error('Error fetching admin margins:', error);
         return {
             gold24KBuy: 0, gold24KSell: 0,
             gold22KBuy: 0, gold22KSell: 0,
@@ -38,30 +38,40 @@ async function getAdminMargins() {
 }
 
 async function fetchMetalPriceApi() {
-    const apiKey = process.env.METAL_PRICE_API_KEY;
+    const apiKey = '214b6517e187b405f266423a0f22ee4a';
     const url = `https://api.metalpriceapi.com/v1/latest?api_key=${apiKey}&base=INR&currencies=XAU,XAG`;
-    const response = await fetch(url);
-    if (!response.ok) throw new Error('Failed to fetch rates');
-    const data = await response.json();
 
-    const rates = data.rates || {};
-    const XAU = rates.INRXAU || (rates.XAUINR ? 1 / rates.XAUINR : null);
-    const XAG = rates.INRXAG || (rates.XAGINR ? 1 / rates.XAGINR : null);
-    if (!XAU || !XAG) throw new Error('Missing data for XAU or XAG');
+    try {
+        const response = await axios.get(url, {
+            headers: {
+                'User-Agent': 'Mozilla/5.0',
+                'Accept': 'application/json',
+            },
+            timeout: 8000, // 8 seconds
+        });
+        const data = response.data;
+        const rates = data.rates || {};
+        const XAU = rates.INRXAU || (rates.XAUINR ? 1 / rates.XAUINR : null);
+        const XAG = rates.INRXAG || (rates.XAGINR ? 1 / rates.XAGINR : null);
+        if (!XAU || !XAG) throw new Error('Missing data for XAU or XAG');
 
-    const gold24KPerGram = XAU / gramsPerOunce;
-    const silverPerGram = XAG / gramsPerOunce;
-    return { gold24KPerGram, silverPerGram };
+        const gold24KPerGram = XAU / gramsPerOunce;
+        const silverPerGram = XAG / gramsPerOunce;
+        return { gold24KPerGram, silverPerGram };
+    } catch (e) {
+        console.error('MetalPriceAPI fetch failed:', e);
+        throw e;
+    }
 }
 
 async function getSpotPricesWithCache() {
     let cache = null;
     try {
-        const { rows } = await pool.query(`
-            SELECT * FROM metal_cache ORDER BY timestamp DESC LIMIT 1
-        `);
+        const { rows } = await pool.query('SELECT * FROM metal_cache ORDER BY timestamp DESC LIMIT 1');
         cache = rows[0];
-    } catch { }
+    } catch (error) {
+        console.error('Error fetching metal_cache:', error);
+    }
 
     const cacheIsFresh = cache && cache.timestamp && (Date.now() - new Date(cache.timestamp).getTime() < CACHE_TIME);
     const cacheIsValid = cache && cache.gold24k_per_gram && cache.silver_per_gram &&
@@ -81,10 +91,14 @@ async function getSpotPricesWithCache() {
         const { gold24KPerGram, silverPerGram } = await fetchMetalPriceApi();
         // Only update cache if valid non-zero data!
         if (gold24KPerGram > 0 && silverPerGram > 0) {
-            await pool.query(`
-                INSERT INTO metal_cache (gold24k_per_gram, silver_per_gram, timestamp)
-                VALUES ($1, $2, NOW())
-            `, [gold24KPerGram, silverPerGram]);
+            try {
+                await pool.query(
+                    'INSERT INTO metal_cache (gold24k_per_gram, silver_per_gram, timestamp) VALUES ($1, $2, NOW())',
+                    [gold24KPerGram, silverPerGram]
+                );
+            } catch (err) {
+                console.error('Error inserting into metal_cache:', err);
+            }
             return { gold24KPerGram, silverPerGram, timestamp: Date.now() };
         }
     } catch (e) {
@@ -169,18 +183,19 @@ export async function GET() {
 export async function POST(req) {
     try {
         const data = await req.json();
-        await pool.query(`
-            INSERT INTO admin_margins
+        await pool.query(
+            `INSERT INTO admin_margins
                 (gold24k_buy, gold24k_sell, gold22k_buy, gold22k_sell, silver_buy, silver_sell, updated_at)
-            VALUES ($1, $2, $3, $4, $5, $6, NOW())
-        `, [
-            safeNum(data.gold24KBuy),
-            safeNum(data.gold24KSell),
-            safeNum(data.gold22KBuy),
-            safeNum(data.gold22KSell),
-            safeNum(data.silverBuy),
-            safeNum(data.silverSell),
-        ]);
+            VALUES ($1, $2, $3, $4, $5, $6, NOW())`,
+            [
+                safeNum(data.gold24KBuy),
+                safeNum(data.gold24KSell),
+                safeNum(data.gold22KBuy),
+                safeNum(data.gold22KSell),
+                safeNum(data.silverBuy),
+                safeNum(data.silverSell),
+            ]
+        );
         return NextResponse.json({ success: true });
     } catch (error) {
         console.error('Admin save error:', error);
