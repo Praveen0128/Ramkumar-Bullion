@@ -1,11 +1,11 @@
 import { NextResponse } from 'next/server';
-import { promises as fs } from 'fs';
-import path from 'path';
+import { Pool } from 'pg';
 
-const ADMIN_FILE = path.resolve(process.cwd(), 'goldrate-admin.json');
-const CACHE_FILE = path.resolve(process.cwd(), 'metalprice-cache.json');
+const pool = new Pool({
+    connectionString: process.env.DATABASE_URL,
+});
+
 const CACHE_TIME = 12 * 60 * 60 * 1000; // 12 hours
-
 const FIXED_TAX_GOLD = 500;
 const FIXED_TAX_SILVER = 5;
 const gramsPerOunce = 31.1035;
@@ -16,15 +16,17 @@ function safeNum(val) {
 
 async function getAdminMargins() {
     try {
-        const data = await fs.readFile(ADMIN_FILE, 'utf8');
-        const parsed = JSON.parse(data);
+        const { rows } = await pool.query(`
+            SELECT * FROM admin_margins ORDER BY updated_at DESC LIMIT 1
+        `);
+        const parsed = rows[0] || {};
         return {
-            gold24KBuy: safeNum(parsed.gold24KBuy),
-            gold24KSell: safeNum(parsed.gold24KSell),
-            gold22KBuy: safeNum(parsed.gold22KBuy),
-            gold22KSell: safeNum(parsed.gold22KSell),
-            silverBuy: safeNum(parsed.silverBuy),
-            silverSell: safeNum(parsed.silverSell),
+            gold24KBuy: safeNum(parsed.gold24k_buy),
+            gold24KSell: safeNum(parsed.gold24k_sell),
+            gold22KBuy: safeNum(parsed.gold22k_buy),
+            gold22KSell: safeNum(parsed.gold22k_sell),
+            silverBuy: safeNum(parsed.silver_buy),
+            silverSell: safeNum(parsed.silver_sell),
         };
     } catch {
         return {
@@ -55,15 +57,23 @@ async function fetchMetalPriceApi() {
 async function getSpotPricesWithCache() {
     let cache = null;
     try {
-        cache = JSON.parse(await fs.readFile(CACHE_FILE, 'utf8'));
+        const { rows } = await pool.query(`
+            SELECT * FROM metal_cache ORDER BY timestamp DESC LIMIT 1
+        `);
+        cache = rows[0];
     } catch { }
-    const cacheIsFresh = cache && cache.timestamp && (Date.now() - cache.timestamp < CACHE_TIME);
-    const cacheIsValid = cache && cache.gold24KPerGram && cache.silverPerGram &&
-        cache.gold24KPerGram > 0 && cache.silverPerGram > 0;
+
+    const cacheIsFresh = cache && cache.timestamp && (Date.now() - new Date(cache.timestamp).getTime() < CACHE_TIME);
+    const cacheIsValid = cache && cache.gold24k_per_gram && cache.silver_per_gram &&
+        cache.gold24k_per_gram > 0 && cache.silver_per_gram > 0;
 
     // If cache is fresh and valid, use it
     if (cacheIsFresh && cacheIsValid) {
-        return cache;
+        return {
+            gold24KPerGram: cache.gold24k_per_gram,
+            silverPerGram: cache.silver_per_gram,
+            timestamp: new Date(cache.timestamp).getTime(),
+        };
     }
 
     // Otherwise, fetch fresh data
@@ -71,21 +81,26 @@ async function getSpotPricesWithCache() {
         const { gold24KPerGram, silverPerGram } = await fetchMetalPriceApi();
         // Only update cache if valid non-zero data!
         if (gold24KPerGram > 0 && silverPerGram > 0) {
-            const newCache = { gold24KPerGram, silverPerGram, timestamp: Date.now() };
-            await fs.writeFile(CACHE_FILE, JSON.stringify(newCache), 'utf8');
-            return newCache;
+            await pool.query(`
+                INSERT INTO metal_cache (gold24k_per_gram, silver_per_gram, timestamp)
+                VALUES ($1, $2, NOW())
+            `, [gold24KPerGram, silverPerGram]);
+            return { gold24KPerGram, silverPerGram, timestamp: Date.now() };
         }
     } catch (e) {
-        // If fetch fails, log error and fallback
         console.error('Error fetching from MetalPriceAPI:', e);
     }
 
     // If fresh fetch failed, but cache has last valid data, use it (even if expired)
     if (cacheIsValid) {
-        return cache;
+        return {
+            gold24KPerGram: cache.gold24k_per_gram,
+            silverPerGram: cache.silver_per_gram,
+            timestamp: new Date(cache.timestamp).getTime(),
+        };
     }
 
-    // If no valid data at all, return zeros (frontend should handle this gracefully)
+    // If no valid data at all, return zeros
     return { gold24KPerGram: 0, silverPerGram: 0, timestamp: Date.now() };
 }
 
@@ -154,8 +169,18 @@ export async function GET() {
 export async function POST(req) {
     try {
         const data = await req.json();
-        // Write admin margins to the goldrate-admin.json file
-        await fs.writeFile(ADMIN_FILE, JSON.stringify(data), 'utf8');
+        await pool.query(`
+            INSERT INTO admin_margins
+                (gold24k_buy, gold24k_sell, gold22k_buy, gold22k_sell, silver_buy, silver_sell, updated_at)
+            VALUES ($1, $2, $3, $4, $5, $6, NOW())
+        `, [
+            safeNum(data.gold24KBuy),
+            safeNum(data.gold24KSell),
+            safeNum(data.gold22KBuy),
+            safeNum(data.gold22KSell),
+            safeNum(data.silverBuy),
+            safeNum(data.silverSell),
+        ]);
         return NextResponse.json({ success: true });
     } catch (error) {
         console.error('Admin save error:', error);
