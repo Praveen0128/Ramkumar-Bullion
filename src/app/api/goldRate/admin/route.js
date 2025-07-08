@@ -129,9 +129,18 @@ export async function GET() {
         const silver_1kg_sell = +(silver_1g_sell * 1000).toFixed(2);
 
         return NextResponse.json({
-            gold24k_1g_buy, gold24k_1g_sell, gold24k_10g_buy, gold24k_10g_sell,
-            gold22k_1g_buy, gold22k_1g_sell, gold22k_10g_buy, gold22k_10g_sell,
-            silver_1g_buy, silver_1g_sell, silver_1kg_buy, silver_1kg_sell,
+            gold24K_1g_buy: gold24k_1g_buy,
+            gold24K_1g_sell: gold24k_1g_sell,
+            gold24K_10g_buy: gold24k_10g_buy,
+            gold24K_10g_sell: gold24k_10g_sell,
+            gold22K_1g_buy: gold22k_1g_buy,
+            gold22K_1g_sell: gold22k_1g_sell,
+            gold22K_10g_buy: gold22k_10g_buy,
+            gold22K_10g_sell: gold22k_10g_sell,
+            silver_1g_buy,
+            silver_1g_sell,
+            silver_1kg_buy,
+            silver_1kg_sell,
             updatedAt: new Date().toISOString(),
             adminMargins: { gold24KBuy, gold24KSell, gold22KBuy, gold22KSell, silverBuy, silverSell },
         });
