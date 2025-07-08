@@ -1,15 +1,16 @@
 import { NextResponse } from 'next/server';
 import axios from 'axios';
 import pool from '../../../../lib/db.js';
+
 const CACHE_TIME = 12 * 60 * 60 * 1000; // 12 hours
 const FIXED_TAX_GOLD = 500;
 const FIXED_TAX_SILVER = 5;
 const gramsPerOunce = 31.1035;
-// Make sure number
+
 function safeNum(val) {
     return Number.isFinite(val) ? val : 0;
 }
-// Fetch admin margins (latest row)
+
 async function getAdminMargins() {
     try {
         const { rows } = await pool.query('SELECT * FROM admin_margins ORDER BY updated_at DESC LIMIT 1');
@@ -31,9 +32,10 @@ async function getAdminMargins() {
         };
     }
 }
+
 // Call MetalPrice API
 async function fetchMetalPriceApi() {
-    const apiKey = '2146651761878405F266423a9f224'; // replace with your real key
+    const apiKey = '214b6517e187b405f266423a0f22ee4a';
     const url = `https://api.metalpriceapi.com/v1/latest?api_key=${apiKey}&base=INR&currencies=XAU,XAG`;
     try {
         const response = await axios.get(url, {
@@ -41,17 +43,19 @@ async function fetchMetalPriceApi() {
             timeout: 8000,
         });
         const rates = response.data.rates || {};
-        const XAU = rates.XAUINR;
-        const XAG = rates.XAGINR;
-        if (!XAU || !XAG) throw new Error('Missing data for XAU or XAG');
-        const gold24KPerGram = XAU / gramsPerOunce;
-        const silverPerGram = XAG / gramsPerOunce;
+        // Corrected field names:
+        const INRXAU = rates.INRXAU;
+        const INRXAG = rates.INRXAG;
+        if (!INRXAU || !INRXAG) throw new Error('Missing data for INRXAU or INRXAG');
+        const gold24KPerGram = INRXAU / gramsPerOunce;
+        const silverPerGram = INRXAG / gramsPerOunce;
         return { gold24KPerGram, silverPerGram };
     } catch (e) {
         console.error('MetalPriceAPI fetch failed:', e);
         throw e;
     }
 }
+
 // Get spot prices with cache logic
 async function getSpotPricesWithCache() {
     let cache = null;
@@ -96,16 +100,19 @@ async function getSpotPricesWithCache() {
         return { gold24KPerGram: 0, silverPerGram: 0, timestamp: now };
     }
 }
+
 export async function GET() {
     try {
         const { gold24KPerGram, silverPerGram } = await getSpotPricesWithCache();
         const { gold24KBuy, gold24KSell, gold22KBuy, gold22KSell, silverBuy, silverSell } = await getAdminMargins();
+
         // Gold 24K
         const gold24KAfterTax = gold24KPerGram + FIXED_TAX_GOLD;
         const gold24k_1g_buy = +(gold24KAfterTax + gold24KBuy).toFixed(2);
         const gold24k_1g_sell = +(gold24KAfterTax + gold24KSell).toFixed(2);
         const gold24k_10g_buy = +(gold24k_1g_buy * 10).toFixed(2);
         const gold24k_10g_sell = +(gold24k_1g_sell * 10).toFixed(2);
+
         // Gold 22K
         const gold22KPerGram = gold24KPerGram * 0.916;
         const gold22KAfterTax = gold22KPerGram + FIXED_TAX_GOLD;
@@ -113,12 +120,14 @@ export async function GET() {
         const gold22k_1g_sell = +(gold22KAfterTax + gold22KSell).toFixed(2);
         const gold22k_10g_buy = +(gold22k_1g_buy * 10).toFixed(2);
         const gold22k_10g_sell = +(gold22k_1g_sell * 10).toFixed(2);
+
         // Silver
         const silverAfterTaxPerGram = silverPerGram + FIXED_TAX_SILVER;
         const silver_1g_buy = +(silverAfterTaxPerGram + silverBuy).toFixed(2);
         const silver_1g_sell = +(silverAfterTaxPerGram + silverSell).toFixed(2);
         const silver_1kg_buy = +(silver_1g_buy * 1000).toFixed(2);
         const silver_1kg_sell = +(silver_1g_sell * 1000).toFixed(2);
+
         return NextResponse.json({
             gold24k_1g_buy, gold24k_1g_sell, gold24k_10g_buy, gold24k_10g_sell,
             gold22k_1g_buy, gold22k_1g_sell, gold22k_10g_buy, gold22k_10g_sell,
@@ -131,6 +140,7 @@ export async function GET() {
         return NextResponse.json({ error: 'Failed to get gold/silver prices' }, { status: 500 });
     }
 }
+
 // POST: admin update margins
 export async function POST(req) {
     try {
