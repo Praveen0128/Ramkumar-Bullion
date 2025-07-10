@@ -48,24 +48,24 @@ const CommodityTables = () => {
                     </thead>
                     <tbody>
                         <tr className="bg-gray-100 border border-gray-200 hover:bg-gray-200">
-                            <td className={cellClass}>Gold 24K 1g</td>
-                            <td className={dataClass}>{formatINR(rates.gold24K_1g_buy)}</td>
-                            <td className={dataClass}>{formatINR(rates.gold24K_1g_sell)}</td>
+                            <td className={cellClass}>Gold 24 1g</td>
+                            <td className={dataClass}>{formatINR(rates.gold24_1g_buy)}</td>
+                            <td className={dataClass}>{formatINR(rates.gold24_1g_sell)}</td>
                         </tr>
                         <tr className="bg-gray-100 border border-gray-200 hover:bg-gray-200">
-                            <td className={cellClass}>Gold 24K 10g</td>
-                            <td className={dataClass}>{formatINR(rates.gold24K_10g_buy)}</td>
-                            <td className={dataClass}>{formatINR(rates.gold24K_10g_sell)}</td>
+                            <td className={cellClass}>Gold 24 10g</td>
+                            <td className={dataClass}>{formatINR(rates.gold24_10g_buy)}</td>
+                            <td className={dataClass}>{formatINR(rates.gold24_10g_sell)}</td>
                         </tr>
                         <tr className="bg-gray-100 border border-gray-200 hover:bg-gray-200">
-                            <td className={cellClass}>Gold 22K 1g</td>
-                            <td className={dataClass}>{formatINR(rates.gold22K_1g_buy)}</td>
-                            <td className={dataClass}>{formatINR(rates.gold22K_1g_sell)}</td>
+                            <td className={cellClass}>Gold 22 1g</td>
+                            <td className={dataClass}>{formatINR(rates.gold22_1g_buy)}</td>
+                            <td className={dataClass}>{formatINR(rates.gold22_1g_sell)}</td>
                         </tr>
                         <tr className="bg-gray-100 border border-gray-200 hover:bg-gray-200">
-                            <td className={cellClass}>Gold 22K 10g</td>
-                            <td className={dataClass}>{formatINR(rates.gold22K_10g_buy)}</td>
-                            <td className={dataClass}>{formatINR(rates.gold22K_10g_sell)}</td>
+                            <td className={cellClass}>Gold 22 10g</td>
+                            <td className={dataClass}>{formatINR(rates.gold22_10g_buy)}</td>
+                            <td className={dataClass}>{formatINR(rates.gold22_10g_sell)}</td>
                         </tr>
                         <tr className="bg-gray-100 border border-gray-200 hover:bg-gray-200">
                             <td className={cellClass}>Silver 1g</td>
