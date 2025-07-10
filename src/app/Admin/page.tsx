@@ -5,23 +5,23 @@ const ADMIN_EMAIL = 'q@123';
 const ADMIN_PASSWORD = 'q123';
 
 const defaultMargins = {
-    gold24KBuy: 0,
-    gold24KSell: 0,
-    gold22KBuy: 0,
-    gold22KSell: 0,
+    gold24Buy: 0,
+    gold24Sell: 0,
+    gold22Buy: 0,
+    gold22Sell: 0,
     silverBuy: 0,
     silverSell: 0,
 };
 
 type BackendType = null | {
-    gold24K_1g_buy: number,
-    gold24K_1g_sell: number,
-    gold24K_10g_buy: number,
-    gold24K_10g_sell: number,
-    gold22K_1g_buy: number,
-    gold22K_1g_sell: number,
-    gold22K_10g_buy: number,
-    gold22K_10g_sell: number,
+    gold24_1g_buy: number,
+    gold24_1g_sell: number,
+    gold24_10g_buy: number,
+    gold24_10g_sell: number,
+    gold22_1g_buy: number,
+    gold22_1g_sell: number,
+    gold22_10g_buy: number,
+    gold22_10g_sell: number,
     silver_1g_buy: number,
     silver_1g_sell: number,
     silver_1kg_buy: number,
@@ -32,10 +32,10 @@ type BackendType = null | {
 };
 
 type SpotTaxType = {
-    gold24K: number,
-    gold24K10g: number,
-    gold22K: number,
-    gold22K10g: number,
+    gold24: number,
+    gold2410g: number,
+    gold22: number,
+    gold2210g: number,
     silver: number,
     silver1kg: number,
 };
@@ -52,10 +52,10 @@ export default function AdminPage() {
 
     // Store spot+tax for preview
     const [spotTax, setSpotTax] = useState<SpotTaxType>({
-        gold24K: 0,
-        gold24K10g: 0,
-        gold22K: 0,
-        gold22K10g: 0,
+        gold24: 0,
+        gold2410g: 0,
+        gold22: 0,
+        gold2210g: 0,
         silver: 0,
         silver1kg: 0,
     });
@@ -74,10 +74,10 @@ export default function AdminPage() {
                 setBackend(data);
                 setMargins({ ...defaultMargins, ...data.adminMargins });
                 setSpotTax({
-                    gold24K: Number(data.gold24K_1g_buy) - Number(data.adminMargins.gold24KBuy),
-                    gold24K10g: Number(data.gold24K_10g_buy) - Number(data.adminMargins.gold24KBuy) * 10,
-                    gold22K: Number(data.gold22K_1g_buy) - Number(data.adminMargins.gold22KBuy),
-                    gold22K10g: Number(data.gold22K_10g_buy) - Number(data.adminMargins.gold22KBuy) * 10,
+                    gold24: Number(data.gold24_1g_buy) - Number(data.adminMargins.gold24Buy),
+                    gold2410g: Number(data.gold24_10g_buy) - Number(data.adminMargins.gold24Buy) * 10,
+                    gold22: Number(data.gold22_1g_buy) - Number(data.adminMargins.gold22Buy),
+                    gold2210g: Number(data.gold22_10g_buy) - Number(data.adminMargins.gold22Buy) * 10,
                     silver: Number(data.silver_1g_buy) - Number(data.adminMargins.silverBuy),
                     silver1kg: Number(data.silver_1kg_buy) - Number(data.adminMargins.silverBuy) * 1000,
                 });
@@ -127,14 +127,14 @@ export default function AdminPage() {
         if (!backend) return {};
         // spot+tax from backend, margin from state
         return {
-            gold24K_1g_buy: (spotTax.gold24K + margins.gold24KBuy).toFixed(2),
-            gold24K_1g_sell: (spotTax.gold24K + margins.gold24KSell).toFixed(2),
-            gold24K_10g_buy: (spotTax.gold24K10g + margins.gold24KBuy * 10).toFixed(2),
-            gold24K_10g_sell: (spotTax.gold24K10g + margins.gold24KSell * 10).toFixed(2),
-            gold22K_1g_buy: (spotTax.gold22K + margins.gold22KBuy).toFixed(2),
-            gold22K_1g_sell: (spotTax.gold22K + margins.gold22KSell).toFixed(2),
-            gold22K_10g_buy: (spotTax.gold22K10g + margins.gold22KBuy * 10).toFixed(2),
-            gold22K_10g_sell: (spotTax.gold22K10g + margins.gold22KSell * 10).toFixed(2),
+            gold24_1g_buy: (spotTax.gold24 + margins.gold24Buy).toFixed(2),
+            gold24_1g_sell: (spotTax.gold24 + margins.gold24Sell).toFixed(2),
+            gold24_10g_buy: (spotTax.gold2410g + margins.gold24Buy * 10).toFixed(2),
+            gold24_10g_sell: (spotTax.gold2410g + margins.gold24Sell * 10).toFixed(2),
+            gold22_1g_buy: (spotTax.gold22 + margins.gold22Buy).toFixed(2),
+            gold22_1g_sell: (spotTax.gold22 + margins.gold22Sell).toFixed(2),
+            gold22_10g_buy: (spotTax.gold2210g + margins.gold22Buy * 10).toFixed(2),
+            gold22_10g_sell: (spotTax.gold2210g + margins.gold22Sell * 10).toFixed(2),
             silver_1g_buy: (spotTax.silver + margins.silverBuy).toFixed(2),
             silver_1g_sell: (spotTax.silver + margins.silverSell).toFixed(2),
             silver_1kg_buy: (spotTax.silver1kg + margins.silverBuy * 1000).toFixed(2),
@@ -188,7 +188,7 @@ export default function AdminPage() {
             <div className="flex flex-col md:flex-row gap-8">
                 {/* Margin Form */}
                 <form onSubmit={handleSave} className="flex-1 space-y-8">
-                    {/* Gold 24K */}
+                    {/* Gold 24 */}
                     <div>
                         <h3 className="font-semibold mb-2">Gold 24K</h3>
                         <div className="grid grid-cols-2 gap-3 items-end">
@@ -196,8 +196,8 @@ export default function AdminPage() {
                                 <label className="block text-sm">Buy Margin (₹/g)</label>
                                 <input
                                     type="number"
-                                    value={Number.isFinite(margins.gold24KBuy) ? margins.gold24KBuy : 0}
-                                    onChange={e => { setMargins({ ...margins, gold24KBuy: Number(e.target.value) }); setShowPreview(true); }}
+                                    value={Number.isFinite(margins.gold24Buy) ? margins.gold24Buy : 0}
+                                    onChange={e => { setMargins({ ...margins, gold24Buy: Number(e.target.value) }); setShowPreview(true); }}
                                     className="w-full border p-2 rounded"
                                     step="0.01"
                                 />
@@ -206,15 +206,15 @@ export default function AdminPage() {
                                 <label className="block text-sm">Sell Margin (₹/g)</label>
                                 <input
                                     type="number"
-                                    value={Number.isFinite(margins.gold24KSell) ? margins.gold24KSell : 0}
-                                    onChange={e => { setMargins({ ...margins, gold24KSell: Number(e.target.value) }); setShowPreview(true); }}
+                                    value={Number.isFinite(margins.gold24Sell) ? margins.gold24Sell : 0}
+                                    onChange={e => { setMargins({ ...margins, gold24Sell: Number(e.target.value) }); setShowPreview(true); }}
                                     className="w-full border p-2 rounded"
                                     step="0.01"
                                 />
                             </div>
                         </div>
                     </div>
-                    {/* Gold 22K */}
+                    {/* Gold 22 */}
                     <div>
                         <h3 className="font-semibold mb-2">Gold 22K</h3>
                         <div className="grid grid-cols-2 gap-3 items-end">
@@ -222,8 +222,8 @@ export default function AdminPage() {
                                 <label className="block text-sm">Buy Margin (₹/g)</label>
                                 <input
                                     type="number"
-                                    value={Number.isFinite(margins.gold22KBuy) ? margins.gold22KBuy : 0}
-                                    onChange={e => { setMargins({ ...margins, gold22KBuy: Number(e.target.value) }); setShowPreview(true); }}
+                                    value={Number.isFinite(margins.gold22Buy) ? margins.gold22Buy : 0}
+                                    onChange={e => { setMargins({ ...margins, gold22Buy: Number(e.target.value) }); setShowPreview(true); }}
                                     className="w-full border p-2 rounded"
                                     step="0.01"
                                 />
@@ -232,8 +232,8 @@ export default function AdminPage() {
                                 <label className="block text-sm">Sell Margin (₹/g)</label>
                                 <input
                                     type="number"
-                                    value={Number.isFinite(margins.gold22KSell) ? margins.gold22KSell : 0}
-                                    onChange={e => { setMargins({ ...margins, gold22KSell: Number(e.target.value) }); setShowPreview(true); }}
+                                    value={Number.isFinite(margins.gold22Sell) ? margins.gold22Sell : 0}
+                                    onChange={e => { setMargins({ ...margins, gold22Sell: Number(e.target.value) }); setShowPreview(true); }}
                                     className="w-full border p-2 rounded"
                                     step="0.01"
                                 />
@@ -278,7 +278,7 @@ export default function AdminPage() {
                     </h3>
                     <div className="mb-2 text-xs text-gray-500">
                         Spot price + tax:<br />
-                        Gold 24K 1g: {formatINR(spotTax.gold24K)} | Gold 22K 1g: {formatINR(spotTax.gold22K)} | Silver 1g: {formatINR(spotTax.silver)}
+                        Gold 24K 1g: {formatINR(spotTax.gold24)} | Gold 22K 1g: {formatINR(spotTax.gold22)} | Silver 1g: {formatINR(spotTax.silver)}
                     </div>
                     <table className="w-full text-sm border rounded">
                         <thead>
@@ -289,13 +289,13 @@ export default function AdminPage() {
                             </tr>
                         </thead>
                         <tbody>
-                            {["gold24K_1g", "gold24K_10g", "gold22K_1g", "gold22K_10g", "silver_1g", "silver_1kg"].map((key) => (
+                            {["gold24_1g", "gold24_10g", "gold22_1g", "gold22_10g", "silver_1g", "silver_1kg"].map((key) => (
                                 <tr key={key}>
                                     <td className="p-2">
-                                        {key === "gold24K_1g" && "Gold 24K 1g"}
-                                        {key === "gold24K_10g" && "Gold 24K 10g"}
-                                        {key === "gold22K_1g" && "Gold 22K 1g"}
-                                        {key === "gold22K_10g" && "Gold 22K 10g"}
+                                        {key === "gold24_1g" && "Gold 24 1g"}
+                                        {key === "gold24_10g" && "Gold 24 10g"}
+                                        {key === "gold22_1g" && "Gold 22 1g"}
+                                        {key === "gold22_10g" && "Gold 22 10g"}
                                         {key === "silver_1g" && "Silver 1g"}
                                         {key === "silver_1kg" && "Silver 1kg"}
                                     </td>
