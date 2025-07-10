@@ -16,10 +16,10 @@ async function getAdminMargins() {
         const { rows } = await pool.query('SELECT * FROM admin_margins ORDER BY updated_at DESC LIMIT 1');
         const parsed = rows[0] || {};
         return {
-            gold24Buy: safeNum(parsed.gold24_buy),
-            gold24Sell: safeNum(parsed.gold24_sell),
-            gold22Buy: safeNum(parsed.gold22_buy),
-            gold22Sell: safeNum(parsed.gold22_sell),
+            gold24Buy: safeNum(parsed.gold24k_buy),
+            gold24Sell: safeNum(parsed.gold24k_sell),
+            gold22Buy: safeNum(parsed.gold22k_buy),
+            gold22Sell: safeNum(parsed.gold22k_sell),
             silverBuy: safeNum(parsed.silver_buy),
             silverSell: safeNum(parsed.silver_sell),
         };
@@ -43,7 +43,6 @@ async function fetchMetalPriceApi() {
             timeout: 8000,
         });
         const rates = response.data.rates || {};
-        // Corrected field names:
         const INRXAU = rates.INRXAU;
         const INRXAG = rates.INRXAG;
         if (!INRXAU || !INRXAG) throw new Error('Missing data for INRXAU or INRXAG');
@@ -69,10 +68,10 @@ async function getSpotPricesWithCache() {
     if (cache) {
         const cacheAge = now - new Date(cache.timestamp).getTime();
         const cacheIsFresh = cacheAge < CACHE_TIME;
-        const cacheIsValid = cache.gold24_per_gram > 0 && cache.silver_per_gram > 0;
+        const cacheIsValid = cache.gold24k_per_gram > 0 && cache.silver_per_gram > 0;
         if (cacheIsFresh && cacheIsValid) {
             return {
-                gold24PerGram: cache.gold24_per_gram,
+                gold24PerGram: cache.gold24k_per_gram,
                 silverPerGram: cache.silver_per_gram,
                 timestamp: new Date(cache.timestamp).getTime(),
             };
@@ -83,7 +82,7 @@ async function getSpotPricesWithCache() {
         const { gold24PerGram, silverPerGram } = await fetchMetalPriceApi();
         if (gold24PerGram > 0 && silverPerGram > 0) {
             await pool.query(
-                'INSERT INTO metal_cache (gold24_per_gram, silver_per_gram, timestamp) VALUES ($1, $2, NOW())',
+                'INSERT INTO metal_cache (gold24k_per_gram, silver_per_gram, timestamp) VALUES ($1, $2, NOW())',
                 [gold24PerGram, silverPerGram]
             );
         }
@@ -92,7 +91,7 @@ async function getSpotPricesWithCache() {
         console.error('Failed to fetch fresh prices:', error);
         if (cache) {
             return {
-                gold24PerGram: cache.gold24_per_gram,
+                gold24PerGram: cache.gold24k_per_gram,
                 silverPerGram: cache.silver_per_gram,
                 timestamp: new Date(cache.timestamp).getTime(),
             };
@@ -129,14 +128,14 @@ export async function GET() {
         const silver_1kg_sell = +(silver_1g_sell * 1000).toFixed(2);
 
         return NextResponse.json({
-            gold24_1g_buy: gold24_1g_buy,
-            gold24_1g_sell: gold24_1g_sell,
-            gold24_10g_buy: gold24_10g_buy,
-            gold24_10g_sell: gold24_10g_sell,
-            gold22_1g_buy: gold22_1g_buy,
-            gold22_1g_sell: gold22_1g_sell,
-            gold22_10g_buy: gold22_10g_buy,
-            gold22_10g_sell: gold22_10g_sell,
+            gold24_1g_buy,
+            gold24_1g_sell,
+            gold24_10g_buy,
+            gold24_10g_sell,
+            gold22_1g_buy,
+            gold22_1g_sell,
+            gold22_10g_buy,
+            gold22_10g_sell,
             silver_1g_buy,
             silver_1g_sell,
             silver_1kg_buy,
@@ -155,7 +154,7 @@ export async function POST(req) {
     try {
         const data = await req.json();
         await pool.query(
-            'INSERT INTO admin_margins (gold24_buy, gold24_sell, gold22_buy, gold22_sell, silver_buy, silver_sell, updated_at) VALUES ($1, $2, $3, $4, $5, $6, NOW())',
+            'INSERT INTO admin_margins (gold24k_buy, gold24k_sell, gold22k_buy, gold22k_sell, silver_buy, silver_sell, updated_at) VALUES ($1, $2, $3, $4, $5, $6, NOW())',
             [
                 safeNum(data.gold24Buy),
                 safeNum(data.gold24Sell),

@@ -190,7 +190,7 @@ export default function AdminPage() {
                 <form onSubmit={handleSave} className="flex-1 space-y-8">
                     {/* Gold 24 */}
                     <div>
-                        <h3 className="font-semibold mb-2">Gold 24K</h3>
+                        <h3 className="font-semibold mb-2">Gold 24</h3>
                         <div className="grid grid-cols-2 gap-3 items-end">
                             <div>
                                 <label className="block text-sm">Buy Margin (₹/g)</label>
@@ -216,7 +216,7 @@ export default function AdminPage() {
                     </div>
                     {/* Gold 22 */}
                     <div>
-                        <h3 className="font-semibold mb-2">Gold 22K</h3>
+                        <h3 className="font-semibold mb-2">Gold 22</h3>
                         <div className="grid grid-cols-2 gap-3 items-end">
                             <div>
                                 <label className="block text-sm">Buy Margin (₹/g)</label>
@@ -278,7 +278,7 @@ export default function AdminPage() {
                     </h3>
                     <div className="mb-2 text-xs text-gray-500">
                         Spot price + tax:<br />
-                        Gold 24K 1g: {formatINR(spotTax.gold24)} | Gold 22K 1g: {formatINR(spotTax.gold22)} | Silver 1g: {formatINR(spotTax.silver)}
+                        Gold 24 1g: {formatINR(spotTax.gold24)} | Gold 22 1g: {formatINR(spotTax.gold22)} | Silver 1g: {formatINR(spotTax.silver)}
                     </div>
                     <table className="w-full text-sm border rounded">
                         <thead>
